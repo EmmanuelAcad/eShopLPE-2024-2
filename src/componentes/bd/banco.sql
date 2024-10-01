@@ -23,4 +23,3 @@ insert into produtos (nome, descricao, quantidade_estoque, ativo, valor, data_ca
 values ('Mouse USB','Mouse USB', 20, true, 60.0, current_date,1), 
 ('Mouse Sem FIO','Mouse sem fio', 10, true, 120.0, current_date,1),
 ('Teclado USB','Teclado USB', 30, true, 500.0, current_date,1);
-

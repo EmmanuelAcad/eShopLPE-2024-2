@@ -2,11 +2,11 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { atualizarUsuarioDB } from "@/componentes/bd/usecases/usuarioUseCases";
 import { useState, useEffect } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Loading from "@/componentes/comuns/Loading";
+import { atualizarUsuario } from "./atualizarUsuario";
 
 const EditarUsuario = () => {
   const { data: session, status } = useSession();
@@ -29,18 +29,8 @@ const EditarUsuario = () => {
 
   const handleUpdate = async (formData) => {
     "use server";
-    const objeto = {
-      email: formData.get("email"),
-      nome: formData.get("nome"),
-      telefone: formData.get("telefone"),
-      senha: formData.get("senha"),
-    };
-    try {
-      await atualizarUsuarioDB(objeto);
-      router.push("/user");
-    } catch (err) {
-      throw new Error("Erro ao atualizar usuário: " + err);
-    }
+    await atualizarUsuario(formData);
+    router.push("/");
   };
 
   if (loading) {

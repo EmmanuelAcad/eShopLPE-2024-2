@@ -37,11 +37,16 @@ function Menu() {
               id="basic-nav-dropdown"
             >
               {session == null && (
-                <form action={() => signIn()}>
-                  <button type="submit" className="dropdown-item">
-                    Login
-                  </button>
-                </form>
+                <>
+                  <form action={() => signIn()}>
+                    <button type="submit" className="dropdown-item">
+                      Login
+                    </button>
+                  </form>
+                  <Link className="dropdown-item" href={"/cadastrar"}>
+                    Cadastrar
+                  </Link>
+                </>
               )}
               {session != null && (
                 <>

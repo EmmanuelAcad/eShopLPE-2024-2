@@ -49,15 +49,14 @@ export default async function Produtora() {
             {produtoras.map((produtora) => (
               <tr key={produtora.codigo}>
                 <td align="center">
-                  {session?.user?.tipo === "A" && (
-                    <Link
-                      className="btn btn-info"
-                      title="Editar"
-                      href={`/privado/produtora/${produtora.codigo}/formulario`}
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                  )}
+                  <Link
+                    className="btn btn-info"
+                    title="Editar"
+                    href={`/privado/produtora/${produtora.codigo}/formulario`}
+                  >
+                    <i className="bi bi-pencil-square"></i>
+                  </Link>
+
                   {session?.user?.tipo === "A" && (
                     <form
                       action={deleteProdutora.bind(null, produtora.codigo)}

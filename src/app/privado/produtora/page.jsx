@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import Loading from "@/componentes/comuns/Loading";
+import { getServerSession } from "next-auth";
 
 const deleteProdutora = async (codigo) => {
   "use server";
@@ -23,6 +24,12 @@ const deleteProdutora = async (codigo) => {
 };
 
 export default async function Produtora() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
+
   revalidatePath("/privado/produtora/");
 
   const produtoras = await getProdutorasDB();
@@ -49,13 +56,15 @@ export default async function Produtora() {
             {produtoras.map((produtora) => (
               <tr key={produtora.codigo}>
                 <td align="center">
-                  <Link
-                    className="btn btn-info"
-                    title="Editar"
-                    href={`/privado/produtora/${produtora.codigo}/formulario`}
-                  >
-                    <i className="bi bi-pencil-square"></i>
-                  </Link>
+                  {session?.user?.tipo === "A" && (
+                    <Link
+                      className="btn btn-info"
+                      title="Editar"
+                      href={`/privado/produtora/${produtora.codigo}/formulario`}
+                    >
+                      <i className="bi bi-pencil-square"></i>
+                    </Link>
+                  )}
 
                   {session?.user?.tipo === "A" && (
                     <form

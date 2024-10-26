@@ -1,25 +1,28 @@
-create table categorias (
+create table produtoras (
    codigo serial not null primary key, 
-   nome varchar (40) not null
+   nome varchar (30) not null,
+   sede varchar(30) not null
 );
 
-create table produtos (
-   codigo serial not null primary key, 
-   nome varchar (50) not null,
-   descricao text, 
-   quantidade_estoque integer,
-   check (quantidade_estoque >= 0),
-   ativo boolean not null, 
-   valor numeric(12,2) not null, 
-   check (valor >= 0),
-   data_cadastro date not null, 
-   categoria integer not null, 
-   foreign key (categoria) references categorias (codigo)
+create table jogos (
+	codigo serial not null primary key,
+	titulo varchar(30) not null,
+	genero varchar(30) not null,
+	preco decimal(5,2) not null,
+	produtora integer not null,
+	foreign key (produtora) references produtoras (codigo)
 );
 
-insert into categorias (nome) values ('Eletrônicos') , ('Eletrodomésticos') , ('Informática');
+insert into produtoras (nome, sede) values
+('FromSoftware', 'Tóquio, Japão'),
+('Valve', 'Bellevue, Washington, EUA'),
+('Capcom', 'Osaka, Japão')
+returning codigo, nome, sede;
 
-insert into produtos (nome, descricao, quantidade_estoque, ativo, valor, data_cadastro, categoria)
-values ('Mouse USB','Mouse USB', 20, true, 60.0, current_date,1), 
-('Mouse Sem FIO','Mouse sem fio', 10, true, 120.0, current_date,1),
-('Teclado USB','Teclado USB', 30, true, 500.0, current_date,1);
+insert into jogos (titulo, genero, preco, produtora) values
+('Elden Ring', 'Ação, RPG', 249.90, 1),
+('Dark Souls III', 'Ação', 257.90, 1),
+('Dota 2', 'Ação, Estratégia', 0, 2),
+('Portal 2', 'Ação, Aventura', 32.99, 2),
+('Monster Hunter Rise', 'Ação', 139.90, 3)
+returning codigo, titulo, genero, preco, produtora;

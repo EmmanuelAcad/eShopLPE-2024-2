@@ -1,89 +1,96 @@
 import { Table } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import { getProdutosDB, deleteProdutoDB } from "@/componentes/bd/usecases/produtoUseCases";
+import {
+  getJogosDB,
+  deleteJogoDB,
+} from "@/componentes/bd/usecases/jogoUseCases";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
-import { Suspense } from 'react';
-import Loading from '@/componentes/comuns/Loading';
+import { Suspense } from "react";
+import Loading from "@/componentes/comuns/Loading";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth/auth";
 
-const deleteProduto = async (codigo) => {
-    'use server'
-    try {
-        await deleteProdutoDB(codigo);
-    } catch (err) {
-        console.log('Erro: ' + err);
-        throw new Error('Erro: ' + err);
-    }
-    revalidatePath('/privado/produto/');
-    redirect('/privado/produto/');
-}
+const deleteJogo = async (codigo) => {
+  "use server";
+  try {
+    await deleteJogoDB(codigo);
+  } catch (err) {
+    console.log("Erro: " + err);
+    throw new Error("Erro: " + err);
+  }
+  revalidatePath("/privado/jogo/");
+  redirect("/privado/jogo/");
+};
 
-export default async function Produto() {
+export default async function Jogo() {
+  const session = await getServerSession(authOptions);
 
-    const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
 
-    if (!session) {
-        redirect("/api/auth/signin");
-    }
+  revalidatePath("/privado/jogo/");
 
-    revalidatePath('/privado/produto/');
+  const jogos = await getJogosDB();
 
-    const produtos = await getProdutosDB();
-
-    return (
-        <Suspense fallback={<Loading />}>
-            <div style={{ padding: '20px' }}>
-                <Link href={`/privado/produto/${0}/formulario`}
-                    className="btn btn-primary">
-                    <i className="bi bi-file-earmark-plus"></i> Novo
-                </Link>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th style={{ textAlign: 'center' }}>Ações</th>
-                            <th>Código</th>
-                            <th>Nome</th>
-                            <th>Estoque</th>
-                            <th>Ativo</th>
-                            <th>Categoria</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            produtos.map((produto) => (
-                                <tr key={produto.codigo}>
-                                    <td align="center">
-                                        <Link className="btn btn-info" title="Editar"
-                                            href={`/privado/produto/${produto.codigo}/formulario`}>
-                                            <i className="bi bi-pencil-square"></i>
-                                        </Link>
-                                        {session?.user?.tipo === 'A' &&
-                                            <form
-                                                action={deleteProduto.bind(null, produto.codigo)}
-                                                className="d-inline">
-                                                <Button className="btn btn-danger" title="Excluir"
-                                                    type="submit">
-                                                    <i className="bi bi-trash"></i>
-                                                </Button>
-                                            </form>
-                                        }
-
-                                    </td>
-                                    <td>{produto.codigo}</td>
-                                    <td>{produto.nome}</td>
-                                    <td>{produto.quantidade_estoque}</td>
-                                    <td>{produto.ativo ? 'SIM' : 'NÃO'}</td>
-                                    <td>{produto.categoria_nome}</td>
-                                </tr>
-                            ))
-                        }
-
-                    </tbody>
-                </Table>
-            </div>
-        </Suspense>
-    )
+  return (
+    <Suspense fallback={<Loading />}>
+      <div style={{ padding: "20px" }}>
+        <Link
+          href={`/privado/jogo/${0}/formulario`}
+          className="btn btn-primary"
+        >
+          <i className="bi bi-file-earmark-plus"></i> Novo
+        </Link>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th style={{ textAlign: "center" }}>Ações</th>
+              <th>Código</th>
+              <th>Título</th>
+              <th>Gêneros</th>
+              <th>Preco</th>
+              <th>Produtora</th>
+            </tr>
+          </thead>
+          <tbody>
+            {jogos.map((jogo) => (
+              <tr key={jogo.codigo}>
+                <td align="center">
+                  <Link
+                    className="btn btn-info"
+                    title="Editar"
+                    href={`/privado/jogo/${jogo.codigo}/formulario`}
+                  >
+                    <i className="bi bi-pencil-square"></i>
+                  </Link>
+                  {session?.user?.tipo === "A" && (
+                    <form
+                      action={deleteJogo.bind(null, jogo.codigo)}
+                      className="d-inline"
+                    >
+                      <Button
+                        className="btn btn-danger"
+                        title="Excluir"
+                        type="submit"
+                      >
+                        <i className="bi bi-trash"></i>
+                      </Button>
+                    </form>
+                  )}
+                </td>
+                <td>{jogo.codigo}</td>
+                <td>{jogo.titulo}</td>
+                <td>{jogo.genero}</td>
+                <td>{jogo.preco}</td>
+                <td>{jogo.produtora_nome}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </Suspense>
+  );
 }

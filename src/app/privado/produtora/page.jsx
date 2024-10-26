@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import Loading from "@/componentes/comuns/Loading";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth/auth";
 
 const deleteProdutora = async (codigo) => {
   "use server";

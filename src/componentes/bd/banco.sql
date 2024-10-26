@@ -26,3 +26,16 @@ insert into jogos (titulo, genero, preco, produtora) values
 ('Portal 2', 'Ação, Aventura', 32.99, 2),
 ('Monster Hunter Rise', 'Ação', 139.90, 3)
 returning codigo, titulo, genero, preco, produtora;
+
+create table usuarios (
+	email varchar(50) not null primary key, 
+	senha text not null, 
+	tipo char(1)  not null, 
+	check (tipo = 'A' or tipo = 'U'),
+	telefone varchar(14)  not null, 
+	nome varchar(50) not null
+);
+
+insert into usuarios (email, senha, tipo, telefone, nome) 
+values ('admin@admin.com', 'admin', 'A','(00)00000-0000','admin'), 
+('user@user.com', 'user', 'U','(11)11111-1111','user');

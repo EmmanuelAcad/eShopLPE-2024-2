@@ -42,6 +42,7 @@ export default async function Produtora() {
               <th style={{ textAlign: "center" }}>Ações</th>
               <th>Código</th>
               <th>Nome</th>
+              <th>Sede</th>
             </tr>
           </thead>
           <tbody>
@@ -70,6 +71,7 @@ export default async function Produtora() {
                 </td>
                 <td>{produtora.codigo}</td>
                 <td>{produtora.nome}</td>
+                <td>{produtora.sede}</td>
               </tr>
             ))}
           </tbody>

@@ -27,6 +27,7 @@ const FormularioPage = async ({ params }) => {
     const objeto = {
       codigo: formData.get("codigo"),
       nome: formData.get("nome"),
+      sede: formData.get("sede"),
     };
     try {
       if (objeto.codigo == 0) {
@@ -76,6 +77,20 @@ const FormularioPage = async ({ params }) => {
                       defaultValue={produtora.nome}
                       required
                       name="nome"
+                    />
+                  </FloatingLabel>
+                </div>
+                <div>
+                  <FloatingLabel
+                    controlId="campoSede"
+                    label="Sede"
+                    className="mb-3"
+                  >
+                    <Form.Control
+                      type="text"
+                      defaultValue={produtora.sede}
+                      required
+                      name="sede"
                     />
                   </FloatingLabel>
                 </div>

@@ -1,30 +1,28 @@
-import { redirect, revalidatePath } from "next/navigation";
-import { addUsuarioDB } from "@/componentes/bd/usecases/usuarioUseCases";
+import { notFound, redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { criarUsuarioDB } from "@/componentes/bd/usecases/usuarioUseCases";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import Loading from "@/componentes/comuns/Loading";
 
-const CadastroUsuarioPage = () => {
-  const [error, setError] = useState(null);
-
+const FormularioPage = () => {
   const salvarUsuario = async (formData) => {
     "use server";
     const objeto = {
       email: formData.get("email"),
       senha: formData.get("senha"),
-      tipo: "U",
+      tipo: formData.get("tipo"),
       telefone: formData.get("telefone"),
       nome: formData.get("nome"),
     };
-
     try {
-      await addUsuarioDB(objeto);
-      revalidatePath("/");
-      redirect("/");
+      await criarUsuarioDB(objeto);
     } catch (err) {
-      setError("Erro ao cadastrar usuário: " + err.message);
+      throw new Error("Erro: " + err);
     }
+    revalidatePath("/");
+    redirect("/");
   };
 
   return (
@@ -33,66 +31,58 @@ const CadastroUsuarioPage = () => {
         <div style={{ textAlign: "center" }}>
           <h2>Cadastro de Usuário</h2>
         </div>
-        {error && (
-          <h4 className="text-center" style={{ color: "red" }}>
-            {error}
-          </h4>
-        )}
         <form action={salvarUsuario}>
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-12 col-md-6">
-                <FloatingLabel
-                  controlId="campoEmail"
-                  label="Email"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="email"
-                    placeholder="Informe o email"
-                    name="email"
-                    required
-                  />
-                </FloatingLabel>
-                <FloatingLabel
-                  controlId="campoSenha"
-                  label="Senha"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="password"
-                    placeholder="Senha"
-                    name="senha"
-                    required
-                  />
-                </FloatingLabel>
-                <FloatingLabel
-                  controlId="campoTelefone"
-                  label="Telefone"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="tel"
-                    placeholder="Telefone"
-                    name="telefone"
-                    required
-                  />
-                </FloatingLabel>
-                <FloatingLabel
-                  controlId="campoNome"
-                  label="Nome"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="text"
-                    placeholder="Nome completo"
-                    name="nome"
-                    required
-                  />
-                </FloatingLabel>
+                <div>
+                  <FloatingLabel
+                    controlId="campoEmail"
+                    label="Email"
+                    className="mb-3"
+                  >
+                    <Form.Control type="email" required name="email" />
+                  </FloatingLabel>
+                </div>
+                <div>
+                  <FloatingLabel
+                    controlId="campoSenha"
+                    label="Senha"
+                    className="mb-3"
+                  >
+                    <Form.Control type="password" required name="senha" />
+                  </FloatingLabel>
+                </div>
+                <div>
+                  <FloatingLabel
+                    controlId="campoTipo"
+                    label="Tipo (A/U)"
+                    className="mb-3"
+                  >
+                    <Form.Control type="text" required name="tipo" />
+                  </FloatingLabel>
+                </div>
+                <div>
+                  <FloatingLabel
+                    controlId="campoTelefone"
+                    label="Telefone"
+                    className="mb-3"
+                  >
+                    <Form.Control type="text" required name="telefone" />
+                  </FloatingLabel>
+                </div>
+                <div>
+                  <FloatingLabel
+                    controlId="campoNome"
+                    label="Nome"
+                    className="mb-3"
+                  >
+                    <Form.Control type="text" required name="nome" />
+                  </FloatingLabel>
+                </div>
                 <div className="form-group text-center mt-3">
                   <button type="submit" className="btn btn-success">
-                    Registrar
+                    Cadastrar <i className="bi bi-save"></i>
                   </button>
                 </div>
               </div>
@@ -104,4 +94,4 @@ const CadastroUsuarioPage = () => {
   );
 };
 
-export default CadastroUsuarioPage;
+export default FormularioPage;

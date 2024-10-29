@@ -5,18 +5,17 @@ import Form from 'react-bootstrap/Form';
 import { Suspense } from 'react';
 import Loading from '@/componentes/comuns/Loading';
 
-import { autenticaUsuarioDB, atualizarUsuarioDB, autenticaUsuarioPorEmailDB } from "@/componentes/bd/usecases/usuarioUseCases";
+import { autenticaUsuarioDB, atualizarUsuarioDB, autenticaUsuarioPorCodigoDB } from "@/componentes/bd/usecases/usuarioUseCases";
 
 const FormularioPage = async ({ params }) => {
 
-  //const usuario = await autenticaUsuarioDB;
   let usuario = null;
 
   if (params.codigo == 0) {
     usuario = { email: "erro@erro.com", senha: "erro", tipo: "U", telefone: "erro", nome: "erro"};
   } else {
     try {
-      usuario = await autenticaUsuarioPorEmailDB(params.codigo);
+      usuario = await autenticaUsuarioPorCodigoDB(params.codigo);
     } catch (err) {
       return notFound();
     }

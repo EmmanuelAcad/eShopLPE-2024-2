@@ -10,8 +10,7 @@ export const User = () => {
         <>
             <h1>Usuário autenticado</h1>
             <h2>{JSON.stringify(session)}</h2>
-            <h2>{session.user.name}</h2>
-            <h2>{session.user.email}</h2>
+
 
             {session != null && (
                 <Link

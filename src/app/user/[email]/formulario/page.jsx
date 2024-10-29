@@ -59,7 +59,7 @@ const FormularioPage = async ({ params }) => {
                   <FloatingLabel controlId="campoSenha"
                     label="Senha" className="mb-3">
                     <Form.Control type="password"
-                      defaultValue={usuario.senha} required
+                      required
                       name="senha" />
                   </FloatingLabel>
                 </div>

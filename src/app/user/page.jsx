@@ -1,6 +1,6 @@
 "use client";
-
 import Link from "next/link";
+
 import { useSession } from "next-auth/react";
 
 export const User = () => {
@@ -14,7 +14,7 @@ export const User = () => {
             <Link
                 className="btn btn-info"
                 title="Editar"
-                href={`/user/${session.email}/formulario`}
+                href={`/user/${data.email}/formulario`}
             >
                 <i className="bi bi-pencil-square"></i>
             </Link>

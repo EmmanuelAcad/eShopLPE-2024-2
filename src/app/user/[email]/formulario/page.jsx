@@ -22,10 +22,10 @@ const FormularioPage = async ({ params }) => {
     'use server';
 
     const objeto = {
-      email: formData.get('email'),
+      email: formData.get('email'),// chave primária, n muda
       senha: formData.get('senha'),
       telefone: formData.get('telefone'),
-      tipo: formData.get('tipo'),
+      tipo: formData.get('tipo'),// usuario ou admin, n muda
       nome: formData.get('nome')
     }
     try {
@@ -52,7 +52,7 @@ const FormularioPage = async ({ params }) => {
                   <FloatingLabel controlId="campoEmail"
                     label="Nome" className="mb-3">
                     <Form.Control type="text"
-                      defaultValue={usuario.email} required
+                      defaultValue={usuario.email} readOnly
                       name="email" />
                   </FloatingLabel>
                 </div>

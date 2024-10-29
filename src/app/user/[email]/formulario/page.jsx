@@ -14,11 +14,7 @@ const FormularioPage = async ({ params }) => {
   if (params.codigo == 0) {
     usuario = { email: "erro@erro.com", senha: "erro", tipo: "U", telefone: "erro", nome: "erro"};
   } else {
-    try {
-      usuario = await autenticaUsuarioPorCodigoDB(params.codigo);
-    } catch (err) {
-      return notFound();
-    }
+    usuario = await autenticaUsuarioPorCodigoDB(params.codigo);
   }
 
   const atualizarUsuario = async (formData) => {

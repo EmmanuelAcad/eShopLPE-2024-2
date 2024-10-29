@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import { useSession } from "next-auth/react";
 import { autenticaUsuarioDB, atualizarUsuarioDB } from "@/componentes/bd/usecases/usuarioUseCases";
@@ -8,7 +8,7 @@ export default async function User() {
   const usuario = await autenticaUsuarioDB;
 
   const atualizarUsuario = async (formData) => {
-    'use server';
+
         const objeto = {
             email: formData.get('email'),
             senha: formData.get('senha'),

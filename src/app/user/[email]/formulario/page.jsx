@@ -9,7 +9,7 @@ import { autenticaUsuarioDB, atualizarUsuarioDB, autenticaUsuarioPorCodigoDB } f
 
 const FormularioPage = async ({ params }) => {
 
-  let usuario = null;
+  let usuario = {};
 
   if (params.codigo == 0) {
     usuario = { email: "erro@erro.com", senha: "erro", tipo: "U", telefone: "erro", nome: "erro"};

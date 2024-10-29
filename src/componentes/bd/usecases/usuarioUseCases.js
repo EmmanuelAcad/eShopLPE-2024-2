@@ -24,6 +24,29 @@ const autenticaUsuarioDB = async (objeto) => {
   }
 };
 
+const autenticaUsuarioPorEmailDB = async (objeto) => {
+  try {
+    const { email } = objeto;
+    const results = await pool.query(
+      `SELECT * FROM usuarios
+            WHERE email = $1`,
+      [email]
+    );
+    if (results.rowCount == 0) {
+      throw "Usuário inválidos";
+    }
+    const usuario = results.rows[0];
+    return new Usuario(
+      usuario.email,
+      usuario.tipo,
+      usuario.telefone,
+      usuario.nome
+    );
+  } catch (err) {
+    throw "Erro ao autenticar o usuário: " + err;
+  }
+};
+
 const criarUsuarioDB = async (objeto) => {
   try {
     const { email, senha, tipo, telefone, nome } = objeto;

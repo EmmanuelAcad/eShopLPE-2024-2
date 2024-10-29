@@ -12,10 +12,14 @@ const FormularioPage = async ({ params }) => {
   //const usuario = await autenticaUsuarioDB;
   let usuario = null;
 
-  try{
-    usuario = await autenticaUsuarioPorEmailDB(params.email);
-  } catch (err) {
-    return notFound();
+  if (params.codigo == 0) {
+    usuario = { email: "erro@erro.com", senha: "erro", tipo: "U", telefone: "erro", nome: "erro"};
+  } else {
+    try {
+      usuario = await autenticaUsuarioPorEmailDB(params.codigo);
+    } catch (err) {
+      return notFound();
+    }
   }
 
   const atualizarUsuario = async (formData) => {
@@ -24,8 +28,8 @@ const FormularioPage = async ({ params }) => {
     const objeto = {
       email: formData.get('email'),// chave primária, n muda
       senha: formData.get('senha'),
-      telefone: formData.get('telefone'),
       tipo: formData.get('tipo'),// usuario ou admin, n muda
+      telefone: formData.get('telefone'),
       nome: formData.get('nome')
     }
     try {

@@ -37,6 +37,7 @@ const autenticaUsuarioPorEmailDB = async (email) => {
     const usuario = results.rows[0];
     return new Usuario(
       usuario.email,
+      usuario.senha,
       usuario.tipo,
       usuario.telefone,
       usuario.nome
@@ -77,7 +78,7 @@ const criarUsuarioDB = async (objeto) => {
 
 const atualizarUsuarioDB = async (objeto) => {
   try {
-    const { email, senha, telefone, nome } = objeto;
+    const { email, senha, tipo, telefone, nome } = objeto;
     const results = await pool.query(
       `UPDATE usuarios SET senha = $1, tipo = $2, telefone = $3, nome = $4
             WHERE email = $5 RETURNING *`,
@@ -97,4 +98,4 @@ const atualizarUsuarioDB = async (objeto) => {
   }
 };
 
-module.exports = { autenticaUsuarioDB, criarUsuarioDB, atualizarUsuarioDB };
+module.exports = { autenticaUsuarioDB, criarUsuarioDB, atualizarUsuarioDB, autenticaUsuarioPorEmailDB };

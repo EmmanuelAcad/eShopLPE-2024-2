@@ -10,12 +10,14 @@ export const User = () => {
         <>
             <h1>Usuário autenticado</h1>
             <h2>{JSON.stringify(session)}</h2>
+            <h2>{session.user.name}</h2>
+            <h2>{session.user.email}</h2>
 
             {session != null && (
                 <Link
                     className="btn btn-info"
                     title="Editar"
-                    href={`/user/${session.user.name}/formulario`}
+                    href={`/user/${session.user.email}/formulario`}
                 >
                     <i className="bi bi-pencil-square"></i>
                 </Link>

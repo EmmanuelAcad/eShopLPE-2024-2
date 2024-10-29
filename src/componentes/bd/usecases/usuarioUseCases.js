@@ -24,16 +24,15 @@ const autenticaUsuarioDB = async (objeto) => {
   }
 };
 
-const autenticaUsuarioPorEmailDB = async (objeto) => {
+const autenticaUsuarioPorEmailDB = async (email) => {
   try {
-    const { email } = objeto;
     const results = await pool.query(
       `SELECT * FROM usuarios
             WHERE email = $1`,
       [email]
     );
     if (results.rowCount == 0) {
-      throw "Usuário inválidos";
+      throw "Usuário inválido";
     }
     const usuario = results.rows[0];
     return new Usuario(

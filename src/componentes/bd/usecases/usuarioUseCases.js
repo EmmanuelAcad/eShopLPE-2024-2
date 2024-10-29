@@ -24,12 +24,12 @@ const autenticaUsuarioDB = async (objeto) => {
   }
 };
 
-const autenticaUsuarioPorEmailDB = async (email) => {
+const autenticaUsuarioPorCodigoDB = async (codigo) => {
   try {
     const results = await pool.query(
       `SELECT * FROM usuarios
-            WHERE email = $1`,
-      [email]
+            WHERE nome = $1`,
+      [codigo]
     );
     if (results.rowCount == 0) {
       throw "Usuário inválido";
@@ -98,4 +98,4 @@ const atualizarUsuarioDB = async (objeto) => {
   }
 };
 
-module.exports = { autenticaUsuarioDB, criarUsuarioDB, atualizarUsuarioDB, autenticaUsuarioPorEmailDB };
+module.exports = { autenticaUsuarioDB, criarUsuarioDB, atualizarUsuarioDB, autenticaUsuarioPorCodigoDB };

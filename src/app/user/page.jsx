@@ -1,4 +1,4 @@
-'use server';
+
 
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -14,7 +14,7 @@ export default async function User() {
   const usuario = await autenticaUsuarioDB;
 
   const atualizarUsuario = async (formData) => {
-
+  'use server';
     const objeto = {
       email: formData.get('email'),
       senha: formData.get('senha'),

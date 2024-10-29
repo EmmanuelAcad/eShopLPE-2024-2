@@ -37,7 +37,6 @@ const autenticaUsuarioPorCodigoDB = async (codigo) => {
     const usuario = results.rows[0];
     return new Usuario(
       usuario.email,
-      usuario.senha,
       usuario.tipo,
       usuario.telefone,
       usuario.nome

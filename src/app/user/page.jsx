@@ -14,7 +14,7 @@ export const User = () => {
             <Link
                 className="btn btn-info"
                 title="Editar"
-                href={`/user`}
+                href={`/user/${session.user.email}/formulario`}
             >
                 <i className="bi bi-pencil-square"></i>
             </Link>
